@@ -20,28 +20,30 @@ class DoTileAnalysis(PBPTQProcessTool):
         tile_gpdf = tile_gpdf[tile_gpdf["tile_name"]==self.params['tile_name']]
         print(tile_gpdf)
 
-        for gedi_vec_file in gedi_files:
-            print(gedi_vec_file)
-            gedi_vec_lyrs = rsgislib.vectorutils.get_vec_lyrs_lst(gedi_vec_file)
-            first = True
-            for gedi_vec_lyr in gedi_vec_lyrs:
-                print(gedi_vec_lyr)
-                gedi_df = geopandas.read_file(gedi_vec_file, layer=gedi_vec_lyr)
-                gedi_df["msk_rsgis_sel"] = numpy.zeros((gedi_df.shape[0]), dtype=bool)
-                inter = gedi_df["geometry"].intersects(tile_gpdf.iloc[0]["geometry"])
-                gedi_df.loc[inter, "msk_rsgis_sel"] = True
-                gedi_df = gedi_df[gedi_df["msk_rsgis_sel"]]
-                gedi_df = gedi_df.drop(["msk_rsgis_sel"], axis=1)
-                if not gedi_df.empty:
-                    print("Not Empty")
-                else:
-                    print("Empty")
-                """
-                if first:
-                    
-                    first = False
-                else:
-                """
+        gedi_beams = ["BEAM0000", "BEAM0001", "BEAM0010", "BEAM0011", "BEAM0101", "BEAM0110", "BEAM1000", "BEAM1011"]
+
+        for gedi_beam in gedi_beams:
+            for gedi_vec_file in gedi_files:
+                print(gedi_vec_file)
+                gedi_vec_lyrs = rsgislib.vectorutils.get_vec_lyrs_lst(gedi_vec_file)
+                first = True
+                if gedi_beam in gedi_vec_lyrs:
+                    gedi_df = geopandas.read_file(gedi_vec_file, layer=gedi_beam)
+                    gedi_df["msk_rsgis_sel"] = numpy.zeros((gedi_df.shape[0]), dtype=bool)
+                    inter = gedi_df["geometry"].intersects(tile_gpdf.iloc[0]["geometry"])
+                    gedi_df.loc[inter, "msk_rsgis_sel"] = True
+                    gedi_df = gedi_df[gedi_df["msk_rsgis_sel"]]
+                    gedi_df = gedi_df.drop(["msk_rsgis_sel"], axis=1)
+                    if not gedi_df.empty:
+                        print("Not Empty")
+                    else:
+                        print("Empty")
+                    """
+                    if first:
+                        
+                        first = False
+                    else:
+                    """
 
 
     def required_fields(self, **kwargs):
