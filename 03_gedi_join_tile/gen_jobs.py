@@ -23,7 +23,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict = dict()
                 c_dict['tiles_vec_file'] = kwargs['tiles_vec_file']
                 c_dict['tiles_vec_lyr'] = kwargs['tiles_vec_lyr']
-                c_dict['gedi_file'] = kwargs['gedi_file']
+                c_dict['gedi_file'] = gedi_file
                 c_dict['out_file'] = out_file
                 self.params.append(c_dict)
 
