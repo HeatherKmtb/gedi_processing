@@ -3,6 +3,7 @@ import logging
 import os
 import glob
 import geopandas
+import numpy
 import rsgislib.vectorutils
 
 logger = logging.getLogger(__name__)
@@ -16,10 +17,27 @@ class DoTileAnalysis(PBPTQProcessTool):
         gedi_files = glob.glob(self.params['gedi_tiles'])
 
         tile_gpdf = geopandas.read_file(self.params['tiles_vec_file'], layer=self.params['tiles_vec_lyr'])
-        print(tile_gpdf)
         tile_gpdf = tile_gpdf[tile_gpdf["tile_name"]==self.params['tile_name']]
         print(tile_gpdf)
-        #vec_lyrs = rsgislib.vectorutils.get_vec_lyrs_lst(gedi_files[0])
+
+        for gedi_vec_file in gedi_files:
+            print(gedi_vec_file)
+            gedi_vec_lyrs = rsgislib.vectorutils.get_vec_lyrs_lst(gedi_vec_file)
+            first = True
+            for gedi_vec_lyr in gedi_vec_lyrs:
+                gedi_df = geopandas.read_file(gedi_vec_file, layer=gedi_vec_lyr)
+                gedi_df["msk_rsgis_sel"] = numpy.zeros((gedi_df.shape[0]), dtype=bool)
+                inter = gedi_df["geometry"].intersects(tile_gpdf.iloc[0]["geometry"])
+                print(inter)
+                """
+                gedi_df.loc[inter, "msk_rsgis_sel"] = True
+                gedi_df = gedi_df[gedi_df["msk_rsgis_sel"]]
+                gedi_df = gedi_df.drop(["msk_rsgis_sel"], axis=1)
+                if first:
+                    
+                    first = False
+                else:
+                """
 
 
     def required_fields(self, **kwargs):
