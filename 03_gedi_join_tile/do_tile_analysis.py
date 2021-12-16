@@ -25,7 +25,10 @@ class DoTileAnalysis(PBPTQProcessTool):
                                                       out_format='GPKG', join_how='inner', join_op='within')
 
             tile_names = rsgislib.vectorattrs.get_unq_col_values(self.params['out_vec_file'], gedi_lyr, col_name="tile_name")
-            tile_lut["beams"][gedi_lyr] = tile_names
+            tile_names_lst = list()
+            for tile_name in tile_names:
+                tile_names_lst.append(str(tile_name))
+            tile_lut["beams"][gedi_lyr] = tile_names_lst
 
         rsgislib.tools.utils.write_dict_to_json(tile_lut, self.params['out_lut_file'])
 
