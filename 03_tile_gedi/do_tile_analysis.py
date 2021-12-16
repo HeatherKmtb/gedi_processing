@@ -28,11 +28,11 @@ class DoTileAnalysis(PBPTQProcessTool):
                 gedi_df = geopandas.read_file(gedi_vec_file, layer=gedi_vec_lyr)
                 gedi_df["msk_rsgis_sel"] = numpy.zeros((gedi_df.shape[0]), dtype=bool)
                 inter = gedi_df["geometry"].intersects(tile_gpdf.iloc[0]["geometry"])
-                print(inter)
-                """
                 gedi_df.loc[inter, "msk_rsgis_sel"] = True
                 gedi_df = gedi_df[gedi_df["msk_rsgis_sel"]]
                 gedi_df = gedi_df.drop(["msk_rsgis_sel"], axis=1)
+                print(gedi_df)
+                """
                 if first:
                     
                     first = False
