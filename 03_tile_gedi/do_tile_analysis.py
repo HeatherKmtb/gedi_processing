@@ -16,7 +16,7 @@ class DoTileAnalysis(PBPTQProcessTool):
         gedi_files = glob.glob(self.params['gedi_tiles'])
 
         tile_gpdf = geopandas.read_file(self.params['tiles_vec_file'], layer=self.params['tiles_vec_lyr'])
-        tile_gpdf = tile_gpdf[tile_gpdf["tile_name"==self.params['tile_name']]]
+        tile_gpdf = tile_gpdf.loc[tile_gpdf["tile_name"==self.params['tile_name']]]
         print(tile_gpdf)
         #vec_lyrs = rsgislib.vectorutils.get_vec_lyrs_lst(gedi_files[0])
 
