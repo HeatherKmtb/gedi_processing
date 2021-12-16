@@ -43,7 +43,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
-                                 module_load='module load parallel singularity\n\nexport NUMEXPR_MAX_THREADS=2\n')
+                                 module_load='module load parallel singularity\n')
 
 if __name__ == "__main__":
     py_script = os.path.abspath("do_tile_analysis.py")
