@@ -32,7 +32,7 @@ class DoTileAnalysis(PBPTQProcessTool):
                 gedi_df.loc[inter, "msk_rsgis_sel"] = True
                 gedi_df = gedi_df[gedi_df["msk_rsgis_sel"]]
                 gedi_df = gedi_df.drop(["msk_rsgis_sel"], axis=1)
-                if not gedi_df.empty():
+                if not gedi_df.empty:
                     print("Not Empty")
                 else:
                     print("Empty")
