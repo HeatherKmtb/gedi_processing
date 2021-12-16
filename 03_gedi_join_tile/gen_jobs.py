@@ -17,14 +17,16 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         for gedi_file in gedi_files:
             basename = self.get_file_basename(gedi_file)
-            out_file = os.path.join(kwargs['out_dir'], f'{basename}_tiled.gpkg')
+            out_vec_file = os.path.join(kwargs['out_dir'], f'{basename}_tiled.gpkg')
+            out_lut_file = os.path.join(kwargs['out_dir'], f'{basename}_lut.json')
 
-            if not os.path.exists(out_file):
+            if (not os.path.exists(out_vec_file)) or (not os.path.exists(out_lut_file)):
                 c_dict = dict()
                 c_dict['tiles_vec_file'] = kwargs['tiles_vec_file']
                 c_dict['tiles_vec_lyr'] = kwargs['tiles_vec_lyr']
                 c_dict['gedi_file'] = gedi_file
-                c_dict['out_file'] = out_file
+                c_dict['out_vec_file'] = out_vec_file
+                c_dict['out_lut_file'] = out_lut_file
                 self.params.append(c_dict)
 
 
@@ -33,7 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tiles_vec_file='../glb_land_roi_deg_tiles_named.geojson',
             tiles_vec_lyr='glb_land_roi_deg_tiles_named',
             gedi_tiles='/scratch/a.hek4/gedi_gpkg_ard/ard/*.gpkg',
-            out_dir='/scratch/a.hek4/gedi_files_2021_12_16/data/gedi_base_tiles')
+            out_dir='/scratch/a.hek4/gedi_files_2021_12_16/data/gedi_orbits_tiled')
 
 
         self.pop_params_db()
