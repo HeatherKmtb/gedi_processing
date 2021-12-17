@@ -33,7 +33,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.gen_command_info(
             tiles_vec_file='../glb_land_roi_deg_tiles_named.geojson',
             tiles_vec_lyr='glb_land_roi_deg_tiles_named',
-            gedi_lut_dir='scratch/a.hek4/gedi_files_2021_12_16/data/tile_luts',
+            gedi_lut_dir='/scratch/a.hek4/gedi_files_2021_12_16/data/tile_luts',
             out_dir='/scratch/a.hek4/gedi_files_2021_12_16/data/gedi_base_tiles')
 
 
