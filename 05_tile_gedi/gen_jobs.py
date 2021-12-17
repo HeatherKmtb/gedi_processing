@@ -19,7 +19,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_file = os.path.join(kwargs['out_dir'], f'{tile_name}.gpkg')
             tile_lut_file = os.path.join(kwargs['gedi_lut_dir'], f"{tile_name}_lut.json")
 
-            if not os.path.exists(out_file):
+            if (not os.path.exists(out_file)) and os.path.exists(tile_lut_file):
                 c_dict = dict()
                 c_dict['tiles_vec_file'] = kwargs['tiles_vec_file']
                 c_dict['tiles_vec_lyr'] = kwargs['tiles_vec_lyr']
