@@ -24,18 +24,25 @@ class DoTileAnalysis(PBPTQProcessTool):
         gedi_beams = ["BEAM0000", "BEAM0001", "BEAM0010", "BEAM0011", "BEAM0101", "BEAM0110", "BEAM1000", "BEAM1011"]
 
         for gedi_beam in gedi_beams:
+            print(gedi_beam)
+            first = True
             for gedi_vec_file in gedi_files:
-                print(gedi_vec_file)
+                print(f"\t{gedi_vec_file}")
                 gedi_vec_lyrs = rsgislib.vectorutils.get_vec_lyrs_lst(gedi_vec_file)
-                first = True
                 if gedi_beam in gedi_vec_lyrs:
                     gedi_df = geopandas.read_file(gedi_vec_file, layer=gedi_beam)
                     gedi_df = gedi_df[gedi_df["tile_name"] == self.params['tile_name']]
                     if not gedi_df.empty:
-                        print("Not Empty")
-                        print(gedi_df.shape)
-                    else:
-                        print("Empty")
+                        if first:
+                            gedi_out_df = gedi_df.copy()
+                            first = False
+                        else:
+                            gedi_out_df = geopandas.concat([gedi_out_df, gedi_df], ignore_index=True)
+            if not first:
+                gedi_out_df.to_file(self.params['out_file'], layer=gedi_beam, driver="GPKG")
+
+
+
                     """
                     gedi_df["msk_rsgis_sel"] = numpy.zeros((gedi_df.shape[0]), dtype=bool)
                     inter = gedi_df["geometry"].intersects(tile_gpdf.iloc[0]["geometry"])
