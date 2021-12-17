@@ -21,8 +21,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             if (not os.path.exists(out_file)) and os.path.exists(tile_lut_file):
                 c_dict = dict()
-                c_dict['tiles_vec_file'] = kwargs['tiles_vec_file']
-                c_dict['tiles_vec_lyr'] = kwargs['tiles_vec_lyr']
                 c_dict['tile_name'] = tile_name
                 c_dict['tile_lut_file'] = tile_lut_file
                 c_dict['out_file'] = out_file

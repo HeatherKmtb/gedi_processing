@@ -17,9 +17,9 @@ class DoTileAnalysis(PBPTQProcessTool):
     def do_processing(self, **kwargs):
         gedi_files = rsgislib.tools.utils.read_json_to_dict(self.params['tile_lut_file'])
 
-        tile_gpdf = geopandas.read_file(self.params['tiles_vec_file'], layer=self.params['tiles_vec_lyr'])
-        tile_gpdf = tile_gpdf[tile_gpdf["tile_name"]==self.params['tile_name']]
-        print(tile_gpdf)
+        #tile_gpdf = geopandas.read_file(self.params['tiles_vec_file'], layer=self.params['tiles_vec_lyr'])
+        #tile_gpdf = tile_gpdf[tile_gpdf["tile_name"]==self.params['tile_name']]
+        #print(tile_gpdf)
 
         gedi_beams = ["BEAM0000", "BEAM0001", "BEAM0010", "BEAM0011", "BEAM0101", "BEAM0110", "BEAM1000", "BEAM1011"]
 
@@ -30,7 +30,7 @@ class DoTileAnalysis(PBPTQProcessTool):
                 first = True
                 if gedi_beam in gedi_vec_lyrs:
                     gedi_df = geopandas.read_file(gedi_vec_file, layer=gedi_beam)
-                    gedi_df = gedi_df[gedi_df["tile_name" == self.params['tile_name']]]
+                    gedi_df = gedi_df[gedi_df["tile_name"] == self.params['tile_name']]
                     if not gedi_df.empty:
                         print("Not Empty")
                         print(gedi_df.shape)
@@ -55,12 +55,12 @@ class DoTileAnalysis(PBPTQProcessTool):
 
 
     def required_fields(self, **kwargs):
-        return ["tiles_vec_file", "tiles_vec_lyr", "tile_name", "tile_lut_file", "out_file"]
+        return ["tile_name", "tile_lut_file", "out_file"]
 
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
-        files_dict[self.params['out_file']] = 'gdal_vector'
+        files_dict[self.params['out_file']] = {'type':'gdal_vector', 'chk_proj':True, 'epsg_code':4326}
         return self.check_files(files_dict)
 
     def remove_outputs(self, **kwargs):
