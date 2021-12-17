@@ -40,8 +40,8 @@ class DoTileAnalysis(PBPTQProcessTool):
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
-        files_dict[self.params['out_vec_file']] = 'gdal_vector'
-        files_dict[self.params['out_vec_file']] = 'gdal_vector'
+        files_dict[self.params['out_vec_file']] = {'type':'gdal_vector', 'chk_proj':True, 'epsg_code':4326}
+        files_dict[self.params['out_lut_file']] = 'file'
         return self.check_files(files_dict)
 
     def remove_outputs(self, **kwargs):
