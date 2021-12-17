@@ -37,7 +37,7 @@ class DoTileAnalysis(PBPTQProcessTool):
                             gedi_out_df = gedi_df.copy()
                             first = False
                         else:
-                            gedi_out_df = geopandas.concat([gedi_out_df, gedi_df], ignore_index=True)
+                            gedi_out_df = gedi_out_df.append(gedi_df, ignore_index=True, sort=False)
             if not first:
                 gedi_out_df.to_file(self.params['out_file'], layer=gedi_beam, driver="GPKG")
 
