@@ -17,10 +17,6 @@ class DoTileAnalysis(PBPTQProcessTool):
     def do_processing(self, **kwargs):
         gedi_files = rsgislib.tools.utils.read_json_to_dict(self.params['tile_lut_file'])
 
-        #tile_gpdf = geopandas.read_file(self.params['tiles_vec_file'], layer=self.params['tiles_vec_lyr'])
-        #tile_gpdf = tile_gpdf[tile_gpdf["tile_name"]==self.params['tile_name']]
-        #print(tile_gpdf)
-
         gedi_beams = ["BEAM0000", "BEAM0001", "BEAM0010", "BEAM0011", "BEAM0101", "BEAM0110", "BEAM1000", "BEAM1011"]
 
         for gedi_beam in gedi_beams:
@@ -40,25 +36,6 @@ class DoTileAnalysis(PBPTQProcessTool):
                             gedi_out_df = gedi_out_df.append(gedi_df, ignore_index=True, sort=False)
             if not first:
                 gedi_out_df.to_file(self.params['out_file'], layer=gedi_beam, driver="GPKG")
-
-
-
-        """
-        gedi_df["msk_rsgis_sel"] = numpy.zeros((gedi_df.shape[0]), dtype=bool)
-        inter = gedi_df["geometry"].intersects(tile_gpdf.iloc[0]["geometry"])
-        gedi_df.loc[inter, "msk_rsgis_sel"] = True
-        gedi_df = gedi_df[gedi_df["msk_rsgis_sel"]]
-        gedi_df = gedi_df.drop(["msk_rsgis_sel"], axis=1)
-        if not gedi_df.empty:
-            print("Not Empty")
-        else:
-            print("Empty")
-        
-        if first:
-            
-            first = False
-        else:
-        """
 
 
     def required_fields(self, **kwargs):
