@@ -43,22 +43,22 @@ class DoTileAnalysis(PBPTQProcessTool):
 
 
 
-                    """
-                    gedi_df["msk_rsgis_sel"] = numpy.zeros((gedi_df.shape[0]), dtype=bool)
-                    inter = gedi_df["geometry"].intersects(tile_gpdf.iloc[0]["geometry"])
-                    gedi_df.loc[inter, "msk_rsgis_sel"] = True
-                    gedi_df = gedi_df[gedi_df["msk_rsgis_sel"]]
-                    gedi_df = gedi_df.drop(["msk_rsgis_sel"], axis=1)
-                    if not gedi_df.empty:
-                        print("Not Empty")
-                    else:
-                        print("Empty")
-                    
-                    if first:
-                        
-                        first = False
-                    else:
-                    """
+        """
+        gedi_df["msk_rsgis_sel"] = numpy.zeros((gedi_df.shape[0]), dtype=bool)
+        inter = gedi_df["geometry"].intersects(tile_gpdf.iloc[0]["geometry"])
+        gedi_df.loc[inter, "msk_rsgis_sel"] = True
+        gedi_df = gedi_df[gedi_df["msk_rsgis_sel"]]
+        gedi_df = gedi_df.drop(["msk_rsgis_sel"], axis=1)
+        if not gedi_df.empty:
+            print("Not Empty")
+        else:
+            print("Empty")
+        
+        if first:
+            
+            first = False
+        else:
+        """
 
 
     def required_fields(self, **kwargs):
