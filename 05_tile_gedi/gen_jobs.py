@@ -38,7 +38,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.pop_params_db()
         self.create_slurm_sub_sh("tile_gedi_data", 16448, '/scratch/a.hek4/gedi_files_2021_12_16/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
-                                 db_info_file=None, n_cores_per_job=10, n_jobs=10,
+                                 db_info_file="db_info_run_file.txt", n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
                                  module_load='module load parallel singularity\n')
 
@@ -50,6 +50,6 @@ if __name__ == "__main__":
     process_tools_cls = 'DoTileAnalysis'
 
     create_tools = GenCmds(cmd=script_cmd, db_conn_file="/home/a.hek4/pbpt_db_info.txt",
-                                         lock_file_path="/scratch/a.hek4/gedi_files_2021_12_16/tmp/gedi_lock_file.txt",
-                                         process_tools_mod=process_tools_mod, process_tools_cls=process_tools_cls)
+                           lock_file_path="/scratch/a.hek4/gedi_files_2021_12_16/tmp/gedi_lock_file.txt",
+                           process_tools_mod=process_tools_mod, process_tools_cls=process_tools_cls)
     create_tools.parse_cmds()
