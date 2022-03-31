@@ -1,0 +1,1 @@
+singularity exec --bind /scratch/a.hek4:/scratch/a.hek4 --bind /home/a.hek4:/home/a.hek4 /scratch/a.hek4/swimage/au-eoed-dev.sif gdalbuildvrt /scratch/a.hek4/gedi_files_2021_12_16/data/srtm_mosaic.vrt /scratch/a.hek4/srtm/srtm_raw_tiles/extracted/*.hgt
