@@ -50,7 +50,7 @@ def create_wgs84_vector_grid(out_vec_file:str, out_vec_lyr:str, out_format:str, 
             c_min_x = min_x + (j * grid_x)
             c_max_x = c_min_x + grid_x
             lat_lon_str_name = rsgislib.tools.projection.get_deg_coord_as_str(lat=c_min_x, lon=c_max_y, n_chars=4)
-            tile_names.append(f"{tile_name_prefix}_{lat_lon_str_name}")
+            tile_names.append(f"{tile_name_prefix}{lat_lon_str_name}")
             if overlap is None:
                 bboxs.append([c_min_x, c_max_x, c_min_y, c_max_y])
             else:
@@ -60,7 +60,7 @@ def create_wgs84_vector_grid(out_vec_file:str, out_vec_lyr:str, out_format:str, 
             c_min_x = min_x + (n_x_cells * grid_x)
             c_max_x = c_min_x + x_remain
             lat_lon_str_name = rsgislib.tools.projection.get_deg_coord_as_str(lat=c_min_x, lon=c_max_y, n_chars=4)
-            tile_names.append(f"{tile_name_prefix}_{lat_lon_str_name}")
+            tile_names.append(f"{tile_name_prefix}{lat_lon_str_name}")
             if overlap is None:
                 bboxs.append([c_min_x, c_max_x, c_min_y, c_max_y])
             else:
@@ -73,7 +73,7 @@ def create_wgs84_vector_grid(out_vec_file:str, out_vec_lyr:str, out_format:str, 
             c_min_x = min_x + (j * grid_x)
             c_max_x = c_min_x + grid_x
             lat_lon_str_name = rsgislib.tools.projection.get_deg_coord_as_str(lat=c_min_x, lon=c_max_y, n_chars=4)
-            tile_names.append(f"{tile_name_prefix}_{lat_lon_str_name}")
+            tile_names.append(f"{tile_name_prefix}{lat_lon_str_name}")
             if overlap is None:
                 bboxs.append([c_min_x, c_max_x, c_min_y, c_max_y])
             else:
@@ -83,7 +83,7 @@ def create_wgs84_vector_grid(out_vec_file:str, out_vec_lyr:str, out_format:str, 
             c_min_x = min_x + (n_x_cells * grid_x)
             c_max_x = c_min_x + x_remain
             lat_lon_str_name = rsgislib.tools.projection.get_deg_coord_as_str(lat=c_min_x, lon=c_max_y, n_chars=4)
-            tile_names.append(f"{tile_name_prefix}_{lat_lon_str_name}")
+            tile_names.append(f"{tile_name_prefix}{lat_lon_str_name}")
             if overlap is None:
                 bboxs.append([c_min_x, c_max_x, c_min_y, c_max_y])
             else:
