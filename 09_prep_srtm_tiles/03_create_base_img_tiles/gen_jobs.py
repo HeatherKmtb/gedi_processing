@@ -52,7 +52,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 if __name__ == "__main__":
     py_script = os.path.abspath("do_tile_analysis.py")
-    script_cmd = "singularity exec --bind /scratch/a.hek4:/scratch/a.hek4 --bind /home/a.hek4:/home/a.hek4 /scratch/a.hek4/swimage/rsgislib-dev.sif python {}".format(py_script)
+    script_cmd = "singularity exec --bind /scratch/a.hek4:/scratch/a.hek4 --bind /home/a.hek4:/home/a.hek4 /scratch/a.hek4/swimage/au-eoed-dev.sif python {}".format(py_script)
 
     process_tools_mod = 'do_tile_analysis'
     process_tools_cls = 'DoTileAnalysis'
