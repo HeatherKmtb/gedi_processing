@@ -33,9 +33,9 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(
-            tiles_srch='/scratch/a.hek4/srtm/srtm_overlap_tiles/*.tif',
-            out_asp_dir='/scratch/a.hek4/srtm/srtm_aspect_overlap_tiles',
-            out_slp_dir='/scratch/a.hek4/srtm/srtm_slope_overlap_tiles',
+            tiles_srch='/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/srtm_overlap_tiles/*.tif',
+            out_asp_dir='/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/srtm_aspect_overlap_tiles',
+            out_slp_dir='/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/srtm_slope_overlap_tiles',
             tmp_dir="/scratch/a.hek4/gedi_files_2021_12_16/tmp",
         )
 
