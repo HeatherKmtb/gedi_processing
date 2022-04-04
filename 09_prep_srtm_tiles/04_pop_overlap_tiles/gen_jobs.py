@@ -15,7 +15,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         for tile_img in base_tiles:
             basename = self.get_file_basename(tile_img)
-            out_img = os.path.join(kwargs["out_dir"], "{}.tif".format(basename))
+            out_img = os.path.join(kwargs["out_dir"], "{}.kea".format(basename))
             out_cmp_file = os.path.join(kwargs["out_dir"], "{}.txt".format(basename))
 
             if not os.path.exists(out_cmp_file):
@@ -35,7 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(
-            tiles_srch="/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/base_overlap_tiles/*.tif",
+            tiles_srch="/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/base_overlap_tiles/*.kea",
             srtm_img="/scratch/a.hek4/gedi_files_2021_12_16/data/srtm_global_mosaic_1arc_v3.vrt",
             out_dir="/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/srtm_overlap_tiles",
             tmp_dir="/scratch/a.hek4/gedi_files_2021_12_16/tmp",

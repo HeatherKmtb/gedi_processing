@@ -17,8 +17,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         for tile_img in base_tiles:
             basename = self.get_file_basename(tile_img)
-            out_slope_img = os.path.join(kwargs['out_slp_dir'], '{}_slope.tif'.format(basename))
-            out_aspect_img = os.path.join(kwargs['out_asp_dir'], '{}_aspect.tif'.format(basename))
+            out_slope_img = os.path.join(kwargs['out_slp_dir'], '{}_slope.kea'.format(basename))
+            out_aspect_img = os.path.join(kwargs['out_asp_dir'], '{}_aspect.kea'.format(basename))
 
             if (not os.path.exists(out_slope_img)) or (not os.path.exists(out_aspect_img)):
                 c_dict = dict()
@@ -33,7 +33,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(
-            tiles_srch='/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/srtm_overlap_tiles/*.tif',
+            tiles_srch='/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/srtm_overlap_tiles/*.kea',
             out_asp_dir='/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/srtm_aspect_overlap_tiles',
             out_slp_dir='/scratch/a.hek4/gedi_files_2021_12_16/data/srtm/srtm_slope_overlap_tiles',
             tmp_dir="/scratch/a.hek4/gedi_files_2021_12_16/tmp",

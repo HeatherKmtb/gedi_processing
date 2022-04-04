@@ -24,7 +24,7 @@ class DoTileAnalysis(PBPTQProcessTool):
             self.params["base_img"],
             self.params["srtm_img"],
             self.params["out_img"],
-            "GTIFF",
+            "KEA",
             rsgislib.INTERP_CUBICSPLINE,
             datatype=rsgislib.TYPE_16INT,
             no_data_val=-32768,

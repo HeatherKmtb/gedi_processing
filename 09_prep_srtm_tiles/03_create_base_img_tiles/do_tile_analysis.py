@@ -21,7 +21,7 @@ class DoTileAnalysis(PBPTQProcessTool):
         rsgislib.imageutils.create_blank_img(
             self.params['out_img'], 1, width, height,
             self.params['xmin'],
-            self.params['ymax'], pxl_res, (pxl_res * -1), 0, "", wkt_str, 'GTIFF', rsgislib.TYPE_8UINT)
+            self.params['ymax'], pxl_res, (pxl_res * -1), 0, "", wkt_str, 'KEA', rsgislib.TYPE_8UINT)
         rsgislib.imageutils.pop_img_stats(self.params['out_img'], False, 0, False)
 
 

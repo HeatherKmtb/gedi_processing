@@ -22,10 +22,10 @@ class DoTileAnalysis(PBPTQProcessTool):
         pxl_size_img = os.path.join(self.params["tmp_dir"], "{}_pxl_size.kea".format(self.params["basename"]))
         rsgislib.imageutils.calc_wsg84_pixel_size(self.params["srtm_img"], output_img=pxl_size_img, gdalformat='KEA')
 
-        rsgislib.elevation.slope_pxl_res_img(self.params["srtm_img"], pxl_size_img, self.params["out_slope_img"], "degrees", "GTIFF")
+        rsgislib.elevation.slope_pxl_res_img(self.params["srtm_img"], pxl_size_img, self.params["out_slope_img"], "degrees", "KEA")
         rsgislib.imageutils.pop_img_stats(self.params["out_slope_img"], use_no_data=False, no_data_val=0, calc_pyramids=True)
 
-        rsgislib.elevation.aspect_pxl_res_img(self.params["srtm_img"], pxl_size_img, self.params["out_aspect_img"], "GTIFF")
+        rsgislib.elevation.aspect_pxl_res_img(self.params["srtm_img"], pxl_size_img, self.params["out_aspect_img"], "KEA")
         rsgislib.imageutils.pop_img_stats(self.params["out_aspect_img"], use_no_data=False, no_data_val=0, calc_pyramids=True)
 
         if os.path.exists(self.params["tmp_dir"]):

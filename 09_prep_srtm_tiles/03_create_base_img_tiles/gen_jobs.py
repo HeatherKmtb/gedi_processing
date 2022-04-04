@@ -16,7 +16,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         for i in tqdm.tqdm(range(gpdf.shape[0])):
             tile_name = gpdf.loc[i]['tile_names']
-            out_img = os.path.join(kwargs['out_dir'], '{}.tif'.format(tile_name))
+            out_img = os.path.join(kwargs['out_dir'], '{}.kea'.format(tile_name))
 
             x_min_val = gpdf.loc[i]['xmin']
             x_max_val = gpdf.loc[i]['xmax']
