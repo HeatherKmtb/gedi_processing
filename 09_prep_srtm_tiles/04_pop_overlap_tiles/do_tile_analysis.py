@@ -71,11 +71,12 @@ class DoTileAnalysis(PBPTQProcessTool):
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
-        files_dict[self.params["out_img"]] = {
-            "type": "gdal_image",
-            "chk_proj": True,
-            "epsg_code": 4326,
-        }
+        if os.path.exists(self.params["out_img"]) and os.path.exists(self.params["out_cmp_file"]):
+            files_dict[self.params["out_img"]] = {
+                "type": "gdal_image",
+                "chk_proj": True,
+                "epsg_code": 4326,
+            }
         files_dict[self.params["out_cmp_file"]] = "file"
         return self.check_files(files_dict)
 
