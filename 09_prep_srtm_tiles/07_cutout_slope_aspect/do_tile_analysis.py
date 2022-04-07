@@ -16,7 +16,7 @@ class DoTileAnalysis(PBPTQProcessTool):
         band_defns = list()
         band_defns.append(rsgislib.imagecalc.BandDefn('base', self.params["base_img"], 1))
         band_defns.append(rsgislib.imagecalc.BandDefn('data', self.params["tile_img"], 1))
-        rsgislib.imagecalc.band_math(self.params["out_img"], 'data', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.imagecalc.band_math(self.params["out_img"], 'data', 'KEA', rsgislib.TYPE_32FLOAT, band_defns)
         rsgislib.imageutils.pop_img_stats(self.params["out_img"], use_no_data=False, no_data_val=0, calc_pyramids=True)
 
     def required_fields(self, **kwargs):
