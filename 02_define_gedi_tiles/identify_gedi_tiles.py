@@ -3,9 +3,9 @@ import rsgislib.vectorutils
 import rsgislib.vectorutils.createvectors
 import rsgislib.vectorattrs
 
-glb_tiles_vec_file = "/bigdata/petebunting/Dropbox/University/Research/Data/World/Global_1d_grid.gpkg"
+glb_tiles_vec_file = "/bigdata/heather_gedi/layers/Global_1d_grid.gpkg"
 glb_tiles_vec_lyr = "grid"
-glb_land_vec_file = "/bigdata/petebunting/Dropbox/University/Research/Data/World/GADM_Boundaries/gadm36_levels.gpkg"
+glb_land_vec_file = "/bigdata/heather_gedi/gadm36_levels.gpkg"
 glb_land_vec_lyr = "level0"
 
 glb_land_tiles_vec_file = "glb_land_deg_tiles.geojson"
