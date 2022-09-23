@@ -1,5 +1,4 @@
 
-
 from pbprocesstools.pbpt_q_process import PBPTGenQProcessToolCmds
 import os.path
 import logging
