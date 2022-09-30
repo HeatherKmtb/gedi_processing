@@ -4,7 +4,8 @@ import os
 import glob
 import geopandas
 import numpy
-import from rasterstats import zonal_stats
+from rasterstats import zonal_stats
+import rsgislib.imagemorphology
 
 logger = logging.getLogger(__name__)
 
@@ -14,19 +15,26 @@ class DoTileAnalysis(PBPTQProcessTool):
         super().__init__(cmd_name='do_tile_analysis.py', descript=None)
 
     def do_processing(self, **kwargs):
-        rsgislib.imagecalc.buffer_img_pxl_vals(self.params['gmw_file'], self.params['buffered_gmw'],[1],
-                    -1 , self.params['temp_dir'], 'TIF', 1, False)
+        rsgislib.imagemorphology.create_circular_op(output_file='CircularOp3.gmtxt', op_size=3)
 
+        rsgislib.imagemorphology.image_erode(self.params['gmw_file'], self.params['buffered_gmw'], 
+                                             'CircularOp3.gmtxt', True, 3, 'GTiff', rsgislib.TYPE_8UINT)
         gedi_beams = ["BEAM0000", "BEAM0001", "BEAM0010", "BEAM0011", "BEAM0101", "BEAM0110", "BEAM1000", "BEAM1011"]
-
+        stats='median'
+        
         for gedi_beam in gedi_beams:
             print(gedi_beam)
             #now add in here rsgislib join function
             vector = geopandas.read_file(self.params['gedi_file'], layer = gedi_beam)
             raster = self.params['buffered_gmw']
-            geostats = geopandas.GeoDataFrame.from_features(result)
-    
-            geostats.to_file(self.params['out_vec_file'], layer = beam, driver='GPKG')
+            result = zonal_stats(vector, raster, stats=stats, geojson_out=True)
+            df = geopandas.GeoDataFrame.from_features(result)
+            #query geostats and remove all features with no data value
+            cleandf = df[df['median']!=0]
+            if not cleandf.empty:
+                cleandf.to_file(self.params['out_vec_file'], layer = gedi_beam, driver='GPKG')
+            if cleandf.empty:
+                continue
 
 
     def required_fields(self, **kwargs):
