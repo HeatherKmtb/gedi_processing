@@ -40,7 +40,7 @@ class DoTileAnalysis(PBPTQProcessTool):
 
 
     def required_fields(self, **kwargs):
-        return ["tile_name", "gedi_file", "gmw_files", "out_dir", "gmw_dir", "temp_dir"]
+        return ["gedi_file", "gmw_file", "out_vec_file", "buffered_gmw"]
 
 
     def outputs_present(self, **kwargs):
