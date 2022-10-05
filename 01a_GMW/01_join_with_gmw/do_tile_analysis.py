@@ -20,17 +20,19 @@ class DoTileAnalysis(PBPTQProcessTool):
         rsgislib.imagemorphology.image_erode(self.params['gmw_file'], self.params['buffered_gmw'], 
                                              'CircularOp3.gmtxt', True, 3, 'GTiff', rsgislib.TYPE_8UINT)
         gedi_beams = ["BEAM0000", "BEAM0001", "BEAM0010", "BEAM0011", "BEAM0101", "BEAM0110", "BEAM1000", "BEAM1011"]
-        stats='median'
+        #stats='median'
         
         for gedi_beam in gedi_beams:
             print(gedi_beam)
             #now add in here rsgislib join function
-            vector = geopandas.read_file(self.params['gedi_file'], layer = gedi_beam)
-            raster = self.params['buffered_gmw']
-            result = zonal_stats(vector, raster, stats=stats, geojson_out=True)
+            vec_file = geopandas.read_file(self.params['gedi_file'], layer = gedi_beam)
+            input_img = self.params['buffered_gmw']
+            #result = zonal_stats(vector, raster, stats=stats, geojson_out=True)
+            result = rsgislib.zonalstats.ext_point_band_values_file(vec_file, gedi_beam,
+                    input_img, 1, 1, 1, -999, 'gmw', reproj_vec=False, vec_def_epsg=None)
             df = geopandas.GeoDataFrame.from_features(result)
             #query geostats and remove all features with no data value
-            cleandf = df[df['median']!=0]
+            cleandf = df[df['gmw']==1]
             if not cleandf.empty:
                 cleandf.to_file(self.params['out_vec_file'], layer = gedi_beam, driver='GPKG')
             if cleandf.empty:
