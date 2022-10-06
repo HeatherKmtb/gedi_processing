@@ -4,7 +4,7 @@ import os
 import glob
 import geopandas
 import numpy
-from rasterstats import zonal_stats
+import rsgislib.zonalstats
 import rsgislib.imagemorphology
 
 logger = logging.getLogger(__name__)
