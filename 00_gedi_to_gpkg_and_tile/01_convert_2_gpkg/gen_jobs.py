@@ -44,7 +44,7 @@ class CreateTestCmds(PBPTGenQProcessToolCmds):
 
 
 if __name__ == "__main__":
-    py_script = os.path.abspath("1.to_gpkg_proc.py")
+    py_script = os.path.abspath("do_tile_analysis.py")
     script_cmd = "singularity exec --bind /bigdata:/bigdata --bind /home/heather:/home/heather /bigdata/heather_gedi/sw_image/au-eoed-dev.sif python {}".format(py_script)
     create_tools = CreateTestCmds(cmd=script_cmd, db_conn_file="/bigdata/heather_gedi/pbpt_db_info.txt",lock_file_path="./_lockfile.txt")
     create_tools.parse_cmds()
