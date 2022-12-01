@@ -29,7 +29,7 @@ class DoTileAnalysis(PBPTQProcessTool):
             input_img = self.params['buffered_gmw']
             #result = zonal_stats(vector, raster, stats=stats, geojson_out=True)
             result = rsgislib.zonalstats.ext_point_band_values_file(vec_file, gedi_beam,
-                    input_img, 1, 1, 1, -999, 'gmw', reproj_vec=False, vec_def_epsg=None)
+                    input_img, '1', '1', '1', '-999', 'gmw', reproj_vec=False, vec_def_epsg=None)
             df = geopandas.GeoDataFrame.from_features(result)
             #query geostats and remove all features with no data value
             cleandf = df[df['gmw']==1]

@@ -1,0 +1,4 @@
+{
+    "db_conn_str": "postgresql://pbptuser:aberdata@127.0.0.1:5432/gedi_pbpt_db",
+    "lck_file": "/bigdata/heather_gedi/gedi_processing_PFB_machine/01a_GMW/01_join_with_gmw/gedi_lock_file.txt"
+}
