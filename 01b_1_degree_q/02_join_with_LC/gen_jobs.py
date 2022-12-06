@@ -17,6 +17,7 @@ import logging
 import glob
 import rsgislib
 import rsgislib.vectorattrs
+import os
 
 logger = logging.getLogger(__name__)
 
