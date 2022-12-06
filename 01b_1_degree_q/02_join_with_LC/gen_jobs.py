@@ -14,7 +14,6 @@ Created on Wed Nov 30 13:52:32 2022
 """
 from pbprocesstools.pbpt_q_process import PBPTGenQProcessToolCmds
 import logging
-import os
 import glob
 import rsgislib
 import rsgislib.vectorattrs

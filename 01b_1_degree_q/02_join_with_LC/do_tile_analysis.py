@@ -35,7 +35,7 @@ class ProcessJob(PBPTQProcessTool):
 
 
     def required_fields(self, **kwargs):
-        return ["gedifile","out_file","raster"]
+        return ["gedi_file","out_file","raster"]
 
     def outputs_present(self, **kwargs):
         return True, dict()
