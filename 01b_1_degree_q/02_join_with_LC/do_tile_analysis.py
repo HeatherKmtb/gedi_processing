@@ -7,11 +7,9 @@ Created on Mon Dec  5 11:13:39 2022
 """
 from pbprocesstools.pbpt_q_process import PBPTQProcessTool
 import logging
-import os.path
-import os, ogr
 import geopandas
 from rasterstats import zonal_stats
-import glob
+
 
 logger = logging.getLogger(__name__)
 
