@@ -29,7 +29,7 @@ class ProcessJob(PBPTQProcessTool):
         for beam in beams:
             vector = geopandas.read_file(file, layer=beam)
             result = zonal_stats(vector, raster, stats=stats, geojson_out=True)
-            geostats = geopandas.GeoDataFrame.from_features(result)
+            geostats = geopandas.GeoDataFrame.from_features(result, crs='EPSG:4326')
     
             geostats.to_file(out_file, layer = beam, driver='GPKG')
 
