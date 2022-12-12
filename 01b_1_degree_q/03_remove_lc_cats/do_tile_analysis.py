@@ -24,7 +24,7 @@ class ProcessJob(PBPTQProcessTool):
                        
         beams = ['BEAM0101','BEAM0110',
                  'BEAM1000','BEAM1011']
-        cat = ['60', '50', '70', '80', '200', '40']
+        cat = [60.0, 50.0, 70.0, 80.0, 200.0, 40.0]
         column = 'median'
 
         for beam in beams:
