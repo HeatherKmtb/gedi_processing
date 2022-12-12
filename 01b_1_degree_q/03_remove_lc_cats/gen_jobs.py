@@ -13,11 +13,9 @@ Created on Wed Nov 30 13:52:32 2022
 @author: heatherkay
 """
 from pbprocesstools.pbpt_q_process import PBPTGenQProcessToolCmds
+import os.path
 import logging
 import glob
-import rsgislib
-import rsgislib.vectorattrs
-import os
 
 logger = logging.getLogger(__name__)
 
@@ -37,14 +35,13 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict = dict()
                 c_dict['gedi_file'] = gedi_file
                 c_dict['out_file'] = out_file
-                c_dict['raster'] = '/bigdata/heather_gedi/layers/PROBAV_LC100_global_v3.0.1_2019-nrt_Discrete-Classification-map_EPSG-4326.tif'
                 self.params.append(c_dict)
 
 
     def run_gen_commands(self):
         self.gen_command_info(
-            gedi_tiles='/bigdata/heather_gedi/data/1_deg_q/1.filter_for_quality/GEDI02_B_2021_Q1/*.gpkg',
-            out_dir='/bigdata/heather_gedi/data/1_deg_q/2.join_lc/GEDI02_B_2021_Q1')
+            gedi_tiles='/bigdata/heather_gedi/data/1_deg_q/1.filter_for_quality/GEDI02_B_2020_Q1/*.gpkg',
+            out_dir='/bigdata/heather_gedi/data/1_deg_q/2.join_lc/GEDI02_B_2020_Q1')
 
         self.pop_params_db()
 
