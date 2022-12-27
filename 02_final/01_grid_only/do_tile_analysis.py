@@ -13,8 +13,9 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
+import glob
 
-gedifiles = '/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg'
+gedifiles = glob.glob('/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg')
 out_dir='/bigdata/heather_gedi/results/1_deg/GEDI02_B_2020_Q1'
 out_file='/bigdata/heather_gedi/results/1_deg/2020_Q1.csv'
 quarter = '2020_Q1'
@@ -64,8 +65,8 @@ for file in gedifiles:
     
         x = final['h100'].to_numpy()
         y = final['cd'].to_numpy() 
-        x = np.append(x, [0])
-        y = np.append(y, [0])
+        #x = np.append(x, [0])
+        #y = np.append(y, [0])
     
         qout, qcov = curve_fit(f, x, y, 0.04)
         qout = qout.round(decimals=4)
@@ -88,7 +89,7 @@ for file in gedifiles:
         z = gaussian_kde(xy)(xy)
 
         fig, ax = plt.subplots()
-        ax.scatter(x, y, c=z, s=10, edgecolor='')
+        ax.scatter(x, y, c=z, s=10)
         plt.rcParams.update({'font.size':12}) 
 
         ax.set_title('Grid square ' + name)
