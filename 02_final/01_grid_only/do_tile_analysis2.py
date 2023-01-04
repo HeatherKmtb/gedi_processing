@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Dec  5 11:13:39 2022
+Created on Tue Jan  3 10:34:45 2023
 
 @author: heatherkay
 """
 
 from os import path
-from scipy.stats import gaussian_kde
-import geopandas
+#from scipy.stats import gaussian_kde
 import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 import glob
-from rsgislib import vectorutils
+#import mpl_scatter_density # adds projection='scatter_density'
+from matplotlib.colors import LinearSegmentedColormap
+import geopandas
 
 gedifiles = glob.glob('/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg')
 out_dir='/bigdata/heather_gedi/results/1_deg/GEDI02_B_2020_Q1'
@@ -22,7 +23,7 @@ out_file='/bigdata/heather_gedi/results/1_deg/2020_Q1.csv'
 quarter = '2020_Q1'
 
 #create df for results
-resultsa = pd.DataFrame(columns = ['Grid', 'qout', 'deg_free', 'mse', 'join'])
+resultsa = pd.DataFrame(columns = ['Grid', 'qout', 'deg_free', 'mse'])
 
 for file in gedifiles: 
         hd, tl = path.split(file)
@@ -31,10 +32,12 @@ for file in gedifiles:
         name = name_comp[1] 
         print(name)
         
-        layers = vectorutils.get_vec_lyrs_lst(file)
-            
-        df_list = [geopandas.read_file(file, layer=layer) for layer in layers]
-        df = pd.concat(df_list)
+        df1 = geopandas.read_file(file, layer='BEAM0101')
+        df2 = geopandas.read_file(file, layer='BEAM0110')
+        df3 = geopandas.read_file(file, layer='BEAM1000')    
+        df4 = geopandas.read_file(file, layer='BEAM1011') 
+        
+        df = pd.concat([df1,df2,df3,df4])
          
         #calculate canopy density
         rv = df['rv']
@@ -84,12 +87,24 @@ for file in gedifiles:
 
         resultsa.to_csv(out_file)
 
-        xy = np.vstack([x,y])
-        z = gaussian_kde(xy)(xy)
+#alternative plotting with mpl_scatter_density
+        # "Viridis-like" colormap with white background
+        white_viridis = LinearSegmentedColormap.from_list('white_viridis', [
+            (0, '#ffffff'),
+            (1e-20, '#440053'),
+            (0.2, '#404388'),
+            (0.4, '#2a788e'),
+            (0.6, '#21a784'),
+            (0.8, '#78d151'),
+            (1, '#fde624'),
+        ], N=256)
+        
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1, projection='scatter_density')
+        density = ax.scatter_density(x, y, cmap=white_viridis)
+        fig.colorbar(density, label='Number of points per pixel')
 
-        fig, ax = plt.subplots()
-        ax.scatter(x, y, c=z, s=10)
-        plt.rcParams.update({'font.size':12}) 
+        #mpl_scatter_density(fig, x, y)
 
         ax.set_title('Grid square ' + name)
         ax.set_ylabel('Canopy Density')
@@ -110,5 +125,5 @@ for file in gedifiles:
         ax.annotate('No of footprints = ' + str(footprints),xy=(0.975,0.05), xycoords='axes fraction', fontsize=12, horizontalalignment='right', verticalalignment='bottom')
         plt.savefig(out_dir + 'fig{}_{}.pdf'.format(quarter, name))
         plt.close 
-
+        del fig
 
