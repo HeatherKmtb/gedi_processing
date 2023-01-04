@@ -40,8 +40,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(
-            gedi_tiles='/bigdata/heather_gedi/data/1_deg_q/2.join_lc/GEDI02_B_2020_Q1/*.gpkg',
-            out_dir='/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1')
+            gedi_tiles='/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg',
+            out_dir='/bigdata/heather_gedi/data/1_deg_q/3b.remove_more_lc_cats/GEDI02_B_2020_Q1')
 
         self.pop_params_db()
 
