@@ -7,15 +7,21 @@ Created on Tue Jan  3 10:34:45 2023
 """
 
 from os import path
-#from scipy.stats import gaussian_kde
+from scipy.stats import gaussian_kde
 import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 import glob
 #import mpl_scatter_density # adds projection='scatter_density'
-from matplotlib.colors import LinearSegmentedColormap
+#from matplotlib.colors import LinearSegmentedColormap
 import geopandas
+
+
+gedifiles = glob.glob('/Users/heatherkay/q_res/gedi/testing/uk_amaz/lc_files/*.gpkg')
+out_dir = '/Users/heatherkay/q_res/gedi/testing/uk_amaz/figs/lc_treecover/'
+out_file = '/Users/heatherkay/q_res/gedi/testing/uk_amaz/2020_Q1_new.csv'
+out_gpkg_dir = '/Users/heatherkay/q_res/gedi/testing/uk_amaz/lc_treecover_files/'
 
 gedifiles = glob.glob('/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg')
 out_dir='/bigdata/heather_gedi/results/1_deg/GEDI02_B_2020_Q1'
@@ -29,22 +35,25 @@ for file in gedifiles:
         hd, tl = path.split(file)
         shp_lyr_name = path.splitext(tl)[0]
         name_comp = shp_lyr_name.split('_')
-        name = name_comp[1] 
+        name = name_comp[0] 
         print(name)
         
-        df1 = geopandas.read_file(file, layer='BEAM0101')
-        df2 = geopandas.read_file(file, layer='BEAM0110')
-        df3 = geopandas.read_file(file, layer='BEAM1000')    
-        df4 = geopandas.read_file(file, layer='BEAM1011') 
+        #df1 = geopandas.read_file(file, layer='BEAM0101')
+        #df2 = geopandas.read_file(file, layer='BEAM0110')
+        #df3 = geopandas.read_file(file, layer='BEAM1000')    
+        #df4 = geopandas.read_file(file, layer='BEAM1011') 
         
-        df = pd.concat([df1,df2,df3,df4])
+        #df = pd.concat([df1,df2,df3,df4])
          
+        df = geopandas.read_file(file)
         #calculate canopy density
         rv = df['rv']
         rg = df['rg']
         cd = rv/(rv + rg)
         df['cd'] = cd
         final = df.dropna(subset = ['cd'])
+        
+        #final.to_file(out_gpkg_dir + name + '.gpkg', driver='GPKG')
 
         if final.empty:
             continue
@@ -89,22 +98,29 @@ for file in gedifiles:
 
 #alternative plotting with mpl_scatter_density
         # "Viridis-like" colormap with white background
-        white_viridis = LinearSegmentedColormap.from_list('white_viridis', [
-            (0, '#ffffff'),
-            (1e-20, '#440053'),
-            (0.2, '#404388'),
-            (0.4, '#2a788e'),
-            (0.6, '#21a784'),
-            (0.8, '#78d151'),
-            (1, '#fde624'),
-        ], N=256)
+       # white_viridis = LinearSegmentedColormap.from_list('white_viridis', [
+        #    (0, '#ffffff'),
+         #   (1e-20, '#440053'),
+         #   (0.2, '#404388'),
+         #   (0.4, '#2a788e'),
+         #   (0.6, '#21a784'),
+         #   (0.8, '#78d151'),
+         #   (1, '#fde624'),
+        #], N=256)
         
-        fig = plt.figure()
-        ax = fig.add_subplot(1, 1, 1, projection='scatter_density')
-        density = ax.scatter_density(x, y, cmap=white_viridis)
-        fig.colorbar(density, label='Number of points per pixel')
+        #fig = plt.figure()
+        #ax = fig.add_subplot(1, 1, 1, projection='scatter_density')
+        #density = ax.scatter_density(x, y, cmap=white_viridis)
+        #fig.colorbar(density, label='Number of points per pixel')
 
         #mpl_scatter_density(fig, x, y)
+
+        xy = np.vstack([x,y])
+        z = gaussian_kde(xy)(xy)
+
+        fig, ax = plt.subplots()
+        ax.scatter(x, y, c=z, s=10)
+        plt.rcParams.update({'font.size':12}) 
 
         ax.set_title('Grid square ' + name)
         ax.set_ylabel('Canopy Density')
@@ -125,5 +141,5 @@ for file in gedifiles:
         ax.annotate('No of footprints = ' + str(footprints),xy=(0.975,0.05), xycoords='axes fraction', fontsize=12, horizontalalignment='right', verticalalignment='bottom')
         plt.savefig(out_dir + 'fig{}_{}.pdf'.format(quarter, name))
         plt.close 
-        del fig
+
 

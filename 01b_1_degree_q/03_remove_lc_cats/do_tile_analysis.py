@@ -10,6 +10,7 @@ import logging
 import os.path
 import geopandas
 import numpy as np
+from rsgislib import vectorutils
 
 logger = logging.getLogger(__name__)
 
@@ -22,14 +23,14 @@ class ProcessJob(PBPTQProcessTool):
         file = self.params["gedi_file"]
         out_file = self.params["out_file"]
                        
-        beams = ['BEAM0101','BEAM0110',
-                 'BEAM1000','BEAM1011']
-        cat = [60.0, 50.0, 70.0, 80.0, 200.0, 40.0]
+        beams = vectorutils.get_vec_lyrs_lst(file)
+        cat = [60.0, 50.0, 70.0, 80.0, 200.0, 40.0, 0.0, 100.0, 90.0, 30.0, 20.0]
         column = 'median'
 
         for beam in beams:
             df = geopandas.read_file(file, layer=beam)
-            new = df[np.logical_not(df[column].isin(cat))]
+            df2 = df[np.logical_not(df[column].isin(cat))]
+            new = df2[df2['landsat_treecover']>10]
             if new.empty:
                 continue
             new.to_file(out_file, layer = beam, driver='GPKG')
