@@ -5,7 +5,8 @@ Created on Mon Dec  5 11:13:39 2022
 
 @author: heatherkay
 """
-
+from pbprocesstools.pbpt_q_process import PBPTQProcessTool
+import logging
 from os import path
 from scipy.stats import gaussian_kde
 import geopandas
@@ -15,16 +16,29 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 import glob
 from rsgislib import vectorutils
+from sklearn.metrics import mean_squared_error
 
-gedifiles = glob.glob('/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg')
-out_dir='/bigdata/heather_gedi/results/1_deg/GEDI02_B_2020_Q1'
-out_file='/bigdata/heather_gedi/results/1_deg/2020_Q1.csv'
-quarter = '2020_Q1'
+#gedifiles = glob.glob('/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg')
+#out_dir='/bigdata/heather_gedi/results/1_deg/GEDI02_B_2020_Q1'
+#out_file='/bigdata/heather_gedi/results/1_deg/2020_Q1.csv'
+#quarter = '2020_Q1'
 
-#create df for results
-resultsa = pd.DataFrame(columns = ['Grid', 'qout', 'deg_free', 'mse', 'join'])
+logger = logging.getLogger(__name__)
 
-for file in gedifiles: 
+class ProcessJob(PBPTQProcessTool):
+
+    def __init__(self):
+        super().__init__(cmd_name='perform_processing.py', descript=None)
+
+    def do_processing(self, **kwargs):
+        file = self.params['gedi_file']
+        out_fig_dir = self.params['out_fig_dir']
+        out_csv_file = self.params['out_csv_file']
+        quarter = self.params['quarter']
+        #create df for results
+        resultsa = pd.DataFrame(columns = ['Grid', 'qout', 'deg_free', 'mse', 'join'])
+
+
         hd, tl = path.split(file)
         shp_lyr_name = path.splitext(tl)[0]
         name_comp = shp_lyr_name.split('_')
@@ -42,9 +56,6 @@ for file in gedifiles:
         cd = rv/(rv + rg)
         df['cd'] = cd
         final = df.dropna(subset = ['cd'])
-#you changed this!
-        if not final.empty:
-            continue
         
         #convert height to metres
         incm = final['rh100']
@@ -55,25 +66,18 @@ for file in gedifiles:
                 
         footprints = len(final['h100'])
         
-        if footprints < 100:
-            continue
-            
         #regression 
         def f(x,q):
-            return 1- np.exp(-q * x)
+           return 1- np.exp(-q * x)
     
         x = final['h100'].to_numpy()
         y = final['cd'].to_numpy() 
-        #x = np.append(x, [0])
-        #y = np.append(y, [0])
-    
+
         qout, qcov = curve_fit(f, x, y, 0.04)
         qout = qout.round(decimals=4)
         
         y_predict = f(x, qout)
             
-        from sklearn.metrics import mean_squared_error
-
         mse = mean_squared_error(y, y_predict)
         mse = round(mse, 3)        
 
@@ -82,7 +86,7 @@ for file in gedifiles:
                                     'mse': mse, 'quarter':quarter}, 
                                     ignore_index=True)
 
-        resultsa.to_csv(out_file)
+        resultsa.to_csv(out_csv_file)
 
         xy = np.vstack([x,y])
         z = gaussian_kde(xy)(xy)
@@ -91,7 +95,7 @@ for file in gedifiles:
         ax.scatter(x, y, c=z, s=10)
         plt.rcParams.update({'font.size':12}) 
 
-        ax.set_title('Grid square ' + name)
+        ax.set_title('Grid square ' + name + 'in ' + quarter)
         ax.set_ylabel('Canopy Density')
         ax.set_xlabel('Height - h100 (m)')
         ax.set_xlim([0, 60])
@@ -108,7 +112,17 @@ for file in gedifiles:
         ax.annotate('q = ' + str(qout[0]), xy=(0.975,0.15), xycoords='axes fraction', fontsize=12, horizontalalignment='right', verticalalignment='bottom')
         ax.annotate('MSE = ' + str(mse), xy=(0.975,0.10), xycoords='axes fraction', fontsize=12, horizontalalignment='right', verticalalignment='bottom')
         ax.annotate('No of footprints = ' + str(footprints),xy=(0.975,0.05), xycoords='axes fraction', fontsize=12, horizontalalignment='right', verticalalignment='bottom')
-        plt.savefig(out_dir + 'fig{}_{}.pdf'.format(quarter, name))
+        plt.savefig(out_fig_dir + 'fig{}_{}.pdf'.format(quarter, name))
         plt.close 
 
+    def required_fields(self, **kwargs):
+        return ["gedi_file", "out_fig_dir", "out_csv_file", "quarter"]
 
+    def outputs_present(self, **kwargs):
+        return True, dict()
+
+    def remove_outputs(self, **kwargs):
+        print("No outputs to remove")
+
+if __name__ == "__main__":
+    ProcessJob().std_run()
