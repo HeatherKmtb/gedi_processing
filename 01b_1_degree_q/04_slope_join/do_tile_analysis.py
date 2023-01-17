@@ -35,7 +35,7 @@ class ProcessJob(PBPTQProcessTool):
             
             result = rsgislib.zonalstats.ext_point_band_values_file(vec_file=file, vec_lyr=beam, 
                         input_img = raster, img_band= 1, min_thres = 0, max_thres = 90, 
-                        out_no_data_val= -99, out_field= 'slope', 
+                        out_no_data_val= -99, out_field= 'slope', reproj_vec = True,
                         vec_def_epsg = 4326)
             
             result.to_file(out_file, layer = beam, driver='GPKG')
