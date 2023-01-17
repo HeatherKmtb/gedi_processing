@@ -33,7 +33,10 @@ class ProcessJob(PBPTQProcessTool):
             #geostats = geopandas.GeoDataFrame.from_features(result, crs='EPSG:4326')
             #geostats.to_file(out_file, layer = beam, driver='GPKG')
             
-            result = rsgislib.zonalstats.ext_point_band_values_file(vec_file=file, vec_lyr=beam, input_img = raster, img_band= 1, out_no_data_val= -99, out_field= 'median', vec_def_epsg = 4326)
+            result = rsgislib.zonalstats.ext_point_band_values_file(vec_file=file, vec_lyr=beam, 
+                        input_img = raster, img_band= 1, min_thres = 0, max_thres = 90, 
+                        out_no_data_val= -99, out_field= 'slope', 
+                        vec_def_epsg = 4326)
             
             result.to_file(out_file, layer = beam, driver='GPKG')
 
