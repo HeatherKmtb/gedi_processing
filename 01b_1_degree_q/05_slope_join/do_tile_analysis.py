@@ -27,7 +27,7 @@ class ProcessJob(PBPTQProcessTool):
         beams = vectorutils.get_vec_lyrs_lst(gedi_file)
         bbox = vectorutils.get_vec_layer_extent(gedi_file, vec_lyr = beams[0], 
                                                 compute_if_exp = True)         
-        small_bbox = geometrytools.buffer_bbox(bbox = bbox, buf = 0.3)
+        small_bbox = geometrytools.buffer_bbox(bbox = bbox, buf = 0.9)
         
         raster = imagelut.query_img_lut(scn_bbox = small_bbox, lut_db_file = slope_lut, 
                                         lyr_name = 'slope') 
