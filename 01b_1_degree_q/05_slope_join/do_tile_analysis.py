@@ -32,6 +32,8 @@ class ProcessJob(PBPTQProcessTool):
         raster_list = imagelut.query_img_lut(scn_bbox = small_bbox, lut_db_file = slope_lut, 
                                         lyr_name = 'slope') 
         
+        if len(raster_list)>1:
+            raise Exception('multiple tiles returned' + gedi_file)
         raster = raster_list[0]
        
         for beam in beams:
@@ -39,7 +41,7 @@ class ProcessJob(PBPTQProcessTool):
             rsgislib.zonalstats.ext_point_band_values_file(vec_file=gedi_file, 
                         vec_lyr=beam, input_img = raster, img_band= 1, min_thres = 0, 
                         max_thres = 90, out_no_data_val= -99, out_field= 'slope', 
-                        reproj_vec = True, vec_def_epsg = 4326)
+                        reproj_vec = True, vec_def_epsg = None)
             
 
 
