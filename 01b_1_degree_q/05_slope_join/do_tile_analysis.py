@@ -29,8 +29,10 @@ class ProcessJob(PBPTQProcessTool):
                                                 compute_if_exp = True)         
         small_bbox = geometrytools.buffer_bbox(bbox = bbox, buf = -0.5)
         
-        raster = imagelut.query_img_lut(scn_bbox = small_bbox, lut_db_file = slope_lut, 
+        raster_list = imagelut.query_img_lut(scn_bbox = small_bbox, lut_db_file = slope_lut, 
                                         lyr_name = 'slope') 
+        
+        raster = raster_list[0]
        
         for beam in beams:
             
