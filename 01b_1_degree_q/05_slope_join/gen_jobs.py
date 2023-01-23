@@ -17,40 +17,25 @@ import os.path
 import logging
 import glob
 
+
 logger = logging.getLogger(__name__)
 
 class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
-        if not os.path.exists(kwargs['out_dir']):
-            os.mkdir(kwargs['out_dir'])
-
         gedi_files = glob.glob(kwargs['gedi_tiles'])
 
         for gedi_file in gedi_files:
-            basename = self.get_file_basename(gedi_file)
-            split = os.path.splitext(basename)[0]
-            name_comp = split.split('_')
-            name = name_comp[1]
-            lat = name[0:3]
-            lon = name[3:7]
-            out_file = os.path.join(kwargs['out_dir'], f'{basename}.gpkg')
-            raster = '/bigdata/copernicus-dem-30m/cop_30_slp_asp_tiles/cop_dem_30m_slope_tif/Copernicus_DSM_10_{}_00_{}_00_slope.tif'.format(lat, lon)
-
-            if (not os.path.exists(out_file)):
-                c_dict = dict()
-                c_dict['gedi_file'] = gedi_file
-                c_dict['out_file'] = out_file
-                c_dict['raster'] = raster
-                self.params.append(c_dict)
+            c_dict = dict()
+            c_dict['gedi_file'] = gedi_file
+            c_dict['slope_lut'] = '/bigdata/heather_gedi/data/1_deg_q/4.slope_lut.gpkg'
+            self.params.append(c_dict)
 
 
     def run_gen_commands(self):
         self.gen_command_info(
-            gedi_tiles='/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg',
-            out_dir='/bigdata/heather_gedi/data/1_deg_q/4.slope_join/GEDI02_B_2020_Q1')
+            gedi_tiles='/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg')
             
-
         self.pop_params_db()
 
         self.create_shell_exe(run_script="run_exe_analysis.sh", cmds_sh_file="cmds_lst.sh", n_cores=25, db_info_file="pbpt_db_info_lcl_file.txt")
