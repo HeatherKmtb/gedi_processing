@@ -27,16 +27,12 @@ class ProcessJob(PBPTQProcessTool):
         beams = vectorutils.get_vec_lyrs_lst(gedi_file)
         bbox = vectorutils.get_vec_layer_extent(gedi_file, vec_lyr = beams[0], 
                                                 compute_if_exp = True)         
-        small_bbox = geometrytools.buffer_bbox(bbox = bbox, buf = 0.1)
+        small_bbox = geometrytools.buffer_bbox(bbox = bbox, buf = 0.3)
         
         raster = imagelut.query_img_lut(scn_bbox = small_bbox, lut_db_file = slope_lut, 
                                         lyr_name = 'slope') 
        
         for beam in beams:
-            #vector = geopandas.read_file(file, layer=beam)
-            #result = zonal_stats(vector, raster, stats=stats, geojson_out=True)
-            #geostats = geopandas.GeoDataFrame.from_features(result, crs='EPSG:4326')
-            #geostats.to_file(out_file, layer = beam, driver='GPKG')
             
             rsgislib.zonalstats.ext_point_band_values_file(vec_file=gedi_file, 
                         vec_lyr=beam, input_img = raster, img_band= 1, min_thres = 0, 
