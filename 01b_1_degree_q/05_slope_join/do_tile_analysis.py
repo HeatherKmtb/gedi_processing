@@ -37,7 +37,7 @@ class ProcessJob(PBPTQProcessTool):
         #if len(raster_list)>1:
          #   raise Exception('multiple tiles returned' + gedi_file)
         #raster = raster_list[0]
-        raster = imagelut(bbox, lut_db_file = slope_lut, lyr_name = 'slope', tmp_dir = temp_dir)
+        raster = imagelut.get_raster_lyr(bbox, lut_db_file = slope_lut, lyr_name = 'slope', tmp_dir = temp_dir)
         
         
         for beam in beams:
