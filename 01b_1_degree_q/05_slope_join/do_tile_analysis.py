@@ -12,6 +12,7 @@ from rsgislib import vectorutils
 import rsgislib.zonalstats
 from rsgislib.imageutils import imagelut
 from rsgislib.tools import geometrytools
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +25,8 @@ class ProcessJob(PBPTQProcessTool):
         gedi_file = self.params["gedi_file"]
         slope_lut = self.params["slope_lut"]
         temp_dir = self.params["temp_dir"]
+        
+        os.mkdir(temp_dir)
         
         beams = vectorutils.get_vec_lyrs_lst(gedi_file)
         bbox = vectorutils.get_vec_layer_extent(gedi_file, vec_lyr = beams[0], 
