@@ -47,8 +47,7 @@ class ProcessJob(PBPTQProcessTool):
                         max_thres = 90, out_no_data_val= -99, out_field= 'slope', 
                         reproj_vec = True, vec_def_epsg = None)
             
-        del temp_dir    
-
+    
 
     def required_fields(self, **kwargs):
         return ["gedi_file","slope_lut"]
