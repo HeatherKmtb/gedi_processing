@@ -26,7 +26,9 @@ class ProcessJob(PBPTQProcessTool):
         slope_lut = self.params["slope_lut"]
         temp_dir = self.params["temp_dir"]
         
-        os.mkdir(temp_dir)
+        if not os.path.exists(temp_dir):
+            os.mkdir(temp_dir)
+        
         
         beams = vectorutils.get_vec_lyrs_lst(gedi_file)
         bbox = vectorutils.get_vec_layer_extent(gedi_file, vec_lyr = beams[0], 
