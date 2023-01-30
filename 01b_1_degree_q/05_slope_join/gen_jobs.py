@@ -33,8 +33,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
             
             temp_dir = os.path.join(kwargs['out_dir'], basename)
             
-            if os.path.exists(temp_dir):
-                continue
 
             c_dict = dict()
             c_dict['gedi_file'] = gedi_file
