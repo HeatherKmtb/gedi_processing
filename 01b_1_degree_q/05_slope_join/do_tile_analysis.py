@@ -42,6 +42,7 @@ class ProcessJob(PBPTQProcessTool):
         #raster = raster_list[0]
         raster = imagelut.get_raster_lyr(bbox, lut_db_file = slope_lut, lyr_name = 'slope', tmp_dir = temp_dir)
         
+        print('rater is ' + raster)
         
         for beam in beams:
             
