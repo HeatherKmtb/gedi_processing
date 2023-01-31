@@ -48,6 +48,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
         self.gen_command_info(
             gedi_tiles='/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg',
+            out_fig_dir='/bigdata/heather_gedi/results/1_deg/figs/GEDI02_B_2020_Q1/',
             out_csv_dir='/bigdata/heather_gedi/results/1_deg/csvs/GEDI02_B_2020_Q1/')
             #ALSO CHANGE QUARTER AND OUT_FIG_DIR IN C_DICT ABOVE
         
