@@ -33,12 +33,12 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         for gedi_file in gedi_files:
             basename = self.get_file_basename(gedi_file)
-            out_csv_file = os.path.join(kwargs['out_csv_dir'], f'{basename}.gpkg')
+            out_csv_file = os.path.join(kwargs['out_csv_dir'], f'{basename}.csv')
 
             if (not os.path.exists(out_csv_file)):
                 c_dict = dict()
                 c_dict['gedi_file'] = gedi_file
-                c_dict['out_fig_dir'] = '/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1'
+                c_dict['out_fig_dir'] = '/bigdata/heather_gedi/results/1_deg/figs/GEDI02_B_2020_Q1/'
                 c_dict['out_csv_file'] = out_csv_file
                 c_dict['quarter'] = '2020_Q1'
                 #c_dict['results'] = results
@@ -48,9 +48,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
         self.gen_command_info(
             gedi_tiles='/bigdata/heather_gedi/data/1_deg_q/3.remove_lc_cats/GEDI02_B_2020_Q1/*.gpkg',
-            out_fig_dir='/bigdata/heather_gedi/results/1_deg/figs/GEDI02_B_2020_Q1/',
-            out_csv_dir='/bigdata/heather_gedi/results/1_deg_csvs_GEDI02_B_2020_Q1')
-            #ALSO CHANGE QUARTER IN C_DICT ABOVE
+            out_csv_dir='/bigdata/heather_gedi/results/1_deg/csvs/GEDI02_B_2020_Q1/')
+            #ALSO CHANGE QUARTER AND OUT_FIG_DIR IN C_DICT ABOVE
         
         self.pop_params_db()
 
