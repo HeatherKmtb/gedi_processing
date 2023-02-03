@@ -36,7 +36,8 @@ class ProcessJob(PBPTQProcessTool):
         out_csv_file = self.params['out_csv_file']
         quarter = self.params['quarter']
         #create df for results
-        resultsa = pd.DataFrame(columns = ['Grid', 'qout', 'deg_free', 'mse', 'join'])
+        resultsa = pd.DataFrame(columns = ['Grid', 'qout_gedi', 'deg_free_g', 'mse_g',
+                                           'mean_h_g', 'mean_cd_g', 'max_h_g'])
 
 
         hd, tl = path.split(file)
@@ -81,9 +82,15 @@ class ProcessJob(PBPTQProcessTool):
         mse = mean_squared_error(y, y_predict)
         mse = round(mse, 3)        
 
-        resultsa = resultsa.append({'Grid': name, 'qout': qout, 
-                                    'deg_free': footprints, 
-                                    'mse': mse, 'quarter':quarter}, 
+        meanh = np.mean(x)
+        meancd = np.mean(y)
+        maxh = np.max(x)
+        
+        resultsa = resultsa.append({'Grid': name, 'qout_gedi': qout, 
+                                    'deg_free_g': footprints, 
+                                    'mse_g': mse, 'quarter':quarter,
+                                    'mean_h_g': meanh, 'mean_cd_g': meancd, 
+                                    'max_h_g': maxh}, 
                                     ignore_index=True)
 
         resultsa.to_csv(out_csv_file)
