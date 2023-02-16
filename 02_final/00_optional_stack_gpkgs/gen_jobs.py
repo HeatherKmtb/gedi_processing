@@ -33,8 +33,9 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for tile in tile_list:   
             out_file = os.path.join(kwargs['out_dir'], f'{tile}.gpkg')
 
-            gedi_files = glob.glob(kwargs['gedi_tiles_dir'], f'{tile}.gpkg')
-
+            gedi_files = glob.glob(f'/bigdata/heather_gedi/data/1_deg_q/7.merged_layers/*/{tile}.gpkg')
+            if not gedi_files:
+                continue
                                 
             if (not os.path.exists(out_file)):
                 c_dict = dict()
@@ -48,7 +49,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.gen_command_info(
             tiles_vec_file='/bigdata/heather_gedi/gedi_processing/glb_land_roi_deg_tiles_named.geojson',
             tiles_vec_lyr='glb_land_roi_deg_tiles_named',
-            gedi_tiles_dir='/bigdata/heather_gedi/data/1_deg_q/7.merged_layers/*/',
             out_dir='/bigdata/heather_gedi/results/1_deg_q/8.joined')
 
         
