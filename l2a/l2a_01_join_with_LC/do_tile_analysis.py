@@ -27,7 +27,7 @@ class ProcessJob(PBPTQProcessTool):
         beams = vectorutils.get_vec_lyrs_lst(file)
         #stats = 'median'
         for beam in beams:
-            vec_lyr_obj, vec_ds_obj = rsgislib.vectorutils.read_vec_lyr_to_mem(vec_file=file, vec_lyr=beam)
+            vec_ds_obj, vec_lyr_obj = rsgislib.vectorutils.read_vec_lyr_to_mem(vec_file=file, vec_lyr=beam)
 
             #filtered_vector = vector[vector['quality_flag']==1]
             rsgislib.zonalstats.ext_point_band_values(vec_lyr_obj, raster, img_band = 1,
@@ -36,6 +36,8 @@ class ProcessJob(PBPTQProcessTool):
     
             rsgislib.vectorutils.write_vec_lyr_to_file(vec_lyr_obj, out_file, beam, 
                     out_format= 'GPKG', replace = False)
+            
+            vec_ds_obj=None
 
 
     def required_fields(self, **kwargs):
