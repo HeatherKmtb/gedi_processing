@@ -8,7 +8,8 @@ Created on Mon Dec  5 11:13:39 2022
 from pbprocesstools.pbpt_q_process import PBPTQProcessTool
 import logging
 import geopandas
-from rasterstats import zonal_stats
+import rsgislib.zonalstats
+from rsgislib import vectorutils
 
 
 logger = logging.getLogger(__name__)
@@ -23,14 +24,14 @@ class ProcessJob(PBPTQProcessTool):
         out_file = self.params["out_file"]
         raster = self.params["raster"]
                        
-        beams = ['BEAM0101','BEAM0110',
-                 'BEAM1000','BEAM1011']
-        stats = 'median'
+        beams = vectorutils.get_vec_lyrs_lst(file)
+        #stats = 'median'
         for beam in beams:
             vector = geopandas.read_file(file, layer=beam)
             filtered_vector = vector[vector['quality_flag']==1]
-            result = zonal_stats(filtered_vector, raster, stats=stats, geojson_out=True)
-            geostats = geopandas.GeoDataFrame.from_features(result, crs='EPSG:4326')
+            geostats = rsgislib.zonalstats.ext_point_band_values(filtered_vector, raster, img_band = 1,
+                    min_thres=0, max_thres=255, out_no_data_val=-99, out_field='median',
+                    reproj_vec = False, vec_def_epsg = 4326)
     
             geostats.to_file(out_file, layer = beam, driver='GPKG')
 
