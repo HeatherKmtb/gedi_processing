@@ -27,13 +27,15 @@ class ProcessJob(PBPTQProcessTool):
         beams = vectorutils.get_vec_lyrs_lst(file)
         #stats = 'median'
         for beam in beams:
-            vector = geopandas.read_file(file, layer=beam)
-            filtered_vector = vector[vector['quality_flag']==1]
-            geostats = rsgislib.zonalstats.ext_point_band_values(filtered_vector, raster, img_band = 1,
+            vec_lyr_obj, vec_ds_obj = rsgislib.vectorutils.read_vec_lyr_to_mem(vec_file=file, vec_lyr=beam)
+
+            #filtered_vector = vector[vector['quality_flag']==1]
+            rsgislib.zonalstats.ext_point_band_values(vec_lyr_obj, raster, img_band = 1,
                     min_thres=0, max_thres=255, out_no_data_val=-99, out_field='median',
                     reproj_vec = False, vec_def_epsg = 4326)
     
-            geostats.to_file(out_file, layer = beam, driver='GPKG')
+            rsgislib.vectorutils.write_vec_lyr_to_file(vec_lyr_obj, out_file, beam, 
+                    out_format= 'GPKG', replace = False)
 
 
     def required_fields(self, **kwargs):
