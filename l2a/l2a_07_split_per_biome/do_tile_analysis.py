@@ -21,17 +21,19 @@ class ProcessJob(PBPTQProcessTool):
 
     def do_processing(self, **kwargs):
         file = self.params["gedi_file"]
-        out_file = self.params["out_file"]
+        out_dir = self.params["out_dir"]
                        
         beams = vectorutils.get_vec_lyrs_lst(file)
 
         for beam in beams:
+            basename = os.path.splitext(os.path.basename(file))[0]
             df = geopandas.read_file(file, layer=beam)
             new = df.astype({'BIOME':'int32'})
-            biomes = list(np.unique)
+            biomes = list(np.unique(df['BIOME']))
 
-
-            new.to_file(out_file, layer = beam, driver='GPKG')
+            for biome in biomes:
+               df_biome = new.loc[new['BIOME']==biome] 
+               df_biome.to_file(out_dir + '/{}_biome_{}.gpkg'.format(basename,biome), layer = beam, driver='GPKG')
 
 
     def required_fields(self, **kwargs):
