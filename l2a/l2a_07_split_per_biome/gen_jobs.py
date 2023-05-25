@@ -26,15 +26,17 @@ class GenCmds(PBPTGenQProcessToolCmds):
             os.mkdir(kwargs['out_dir'])
 
         gedi_files = glob.glob(kwargs['gedi_tiles'])
-
+        out_dir = kwargs['out_dir']
+        
         for gedi_file in gedi_files:
             basename = self.get_file_basename(gedi_file)
-            out_file = os.path.join(kwargs['out_dir'], f'{basename}.gpkg')
+            temp_file = os.path.join(kwargs['temp_dir'], f'{basename}.gpkg')
 
-            if (not os.path.exists(out_file)):
+            if (not os.path.exists(temp_file)):
                 c_dict = dict()
                 c_dict['gedi_file'] = gedi_file
-                c_dict['out_file'] = out_file
+                c_dict['out_dir'] = out_dir
+                c_dict['temp_file'] = temp_file
                 self.params.append(c_dict)
 
 

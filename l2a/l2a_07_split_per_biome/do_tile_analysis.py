@@ -11,6 +11,7 @@ import os.path
 import geopandas
 import numpy as np
 from rsgislib import vectorutils
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ class ProcessJob(PBPTQProcessTool):
     def do_processing(self, **kwargs):
         file = self.params["gedi_file"]
         out_dir = self.params["out_dir"]
+        temp_file = self.params["temp_file"]
                        
         beams = vectorutils.get_vec_lyrs_lst(file)
 
@@ -35,9 +37,10 @@ class ProcessJob(PBPTQProcessTool):
                df_biome = new.loc[new['BIOME']==biome] 
                df_biome.to_file(out_dir + '/{}_biome_{}.gpkg'.format(basename,biome), layer = beam, driver='GPKG')
 
+        Path(temp_file)
 
     def required_fields(self, **kwargs):
-        return ["gedi_file","out_file"]
+        return ["gedi_file","out_dir","temp_dir"]
 
     def outputs_present(self, **kwargs):
         return True, dict()
