@@ -30,7 +30,10 @@ class ProcessJob(PBPTQProcessTool):
             new = df[df['slope']<10]
             if new.empty:
                 continue
-            new.to_file(out_file, layer = beam, driver='GPKG')
+            new2 = new[new['quality_flag']==1]
+            if new2.empty:
+                continue
+            new2.to_file(out_file, layer = beam, driver='GPKG')
 
 
     def required_fields(self, **kwargs):
