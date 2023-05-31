@@ -40,7 +40,7 @@ class ProcessJob(PBPTQProcessTool):
         Path(temp_file)
 
     def required_fields(self, **kwargs):
-        return ["gedi_file","out_dir","temp_dir"]
+        return ["gedi_file","out_dir","temp_file"]
 
     def outputs_present(self, **kwargs):
         return True, dict()
