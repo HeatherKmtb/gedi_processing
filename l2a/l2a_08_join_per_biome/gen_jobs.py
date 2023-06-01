@@ -31,7 +31,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         gedi_dir = (kwargs['gedi_dir'])
         
         for biome in biomes:
-            gedi_files = glob.glob(gedi_dir + '*_biome_{}'.format(biome))
+            gedi_files = glob.glob(gedi_dir + '*_biome_{}.gpkg'.format(biome))
             out_file = os.path.join(kwargs['out_dir'], f'{biome}.gpkg')
 
             if (not os.path.exists(out_file)):
