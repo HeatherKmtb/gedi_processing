@@ -41,8 +41,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(
-            gedi_tiles='/bigdata/heather_gedi/data/l2a/5.remove_slope/*.gpkg',
-            out_dir='/bigdata/heather_gedi/data/l2a/6.split_per_biome')
+            gedi_tiles='/bigdata/heather_gedi/data/l2a/6.split_per_biome/*.gpkg',
+            out_dir='/bigdata/heather_gedi/data/l2a/7.joined_biomes')
 
         self.pop_params_db()
 
