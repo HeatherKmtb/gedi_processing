@@ -28,8 +28,10 @@ class GenCmds(PBPTGenQProcessToolCmds):
         biomes = ['1.0','2.0','3.0','4.0','5.0','6.0','7.0','8.0','9.0',
                   '10.0','11.0','12.0','13.0','14.0']
         
+        gedi_dir = glob.glob(kwargs['gedi_dir'])
+        
         for biome in biomes:
-            gedi_files = glob.glob(kwargs['gedi_tiles'] + '*_biome_{}'.format(biome))
+            gedi_files = glob.glob(gedi_dir + '*_biome_{}'.format(biome))
             out_file = os.path.join(kwargs['out_dir'], f'{biome}.gpkg')
 
             if (not os.path.exists(out_file)):
@@ -41,7 +43,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(
-            gedi_tiles='/bigdata/heather_gedi/data/l2a/6.split_per_biome/*.gpkg',
+            gedi_dir='/bigdata/heather_gedi/data/l2a/6.split_per_biome/',
             out_dir='/bigdata/heather_gedi/data/l2a/7.joined_biomes')
 
         self.pop_params_db()
