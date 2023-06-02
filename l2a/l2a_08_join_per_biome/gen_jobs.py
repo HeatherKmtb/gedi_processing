@@ -25,20 +25,23 @@ class GenCmds(PBPTGenQProcessToolCmds):
         if not os.path.exists(kwargs['out_dir']):
             os.mkdir(kwargs['out_dir'])
 
-        biomes = ['1.0','2.0','3.0','4.0','5.0','6.0','7.0','8.0','9.0',
-                  '10.0','11.0','12.0','13.0','14.0']
-        
-        gedi_dir = (kwargs['gedi_dir'])
+        biomes = ['1','2','3','4','5','6','7','8','9',
+                  '10','11','12','13','14']
+        realms = ['AT', ]
         
         for biome in biomes:
-            gedi_files = glob.glob(gedi_dir + '*_biome_{}.gpkg'.format(biome))
-            out_file = os.path.join(kwargs['out_dir'], f'{biome}.gpkg')
+            
+            gedi_dir = (kwargs['gedi_dir'] + biome + '/')
+        
+            for realm in realms:
+                gedi_files = glob.glob(gedi_dir + '*_realm_{}.gpkg'.format(realm))
+                out_file = os.path.join(kwargs['out_dir'] + '{}_{}.gpkg'.format(biome,realm))
 
-            if (not os.path.exists(out_file)):
-                c_dict = dict()
-                c_dict['gedi_files'] = gedi_files
-                c_dict['out_file'] = out_file
-                self.params.append(c_dict)
+                if (not os.path.exists(out_file)):
+                    c_dict = dict()
+                    c_dict['gedi_files'] = gedi_files
+                    c_dict['out_file'] = out_file
+                    self.params.append(c_dict)
 
 
     def run_gen_commands(self):
