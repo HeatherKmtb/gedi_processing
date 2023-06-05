@@ -47,7 +47,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(
-            gedi_dir='/bigdata/heather_gedi/data/l2a/6.split_per_biome/',
+            gedi_dir='/bigdata/heather_gedi/data/l2a/6b.split_per_realm/',
             out_dir='/bigdata/heather_gedi/data/l2a/7.joined_biomes')
 
         self.pop_params_db()
