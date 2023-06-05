@@ -32,6 +32,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for biome in biomes:
             
             gedi_dir = (kwargs['gedi_dir'] + biome + '/')
+            print(gedi_dir)
         
             for realm in realms:
                 gedi_files = glob.glob(gedi_dir + '*_realm_{}.gpkg'.format(realm))
