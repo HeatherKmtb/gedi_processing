@@ -24,13 +24,13 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def gen_command_info(self, **kwargs):
         if not os.path.exists(kwargs['out_dir']):
             os.mkdir(kwargs['out_dir'])
-            out_dir = self(kwargs['out_dir'])
 
         gedi_files = glob.glob(kwargs['gedi_tiles'])
 
         for gedi_file in gedi_files:
             basename = self.get_file_basename(gedi_file)
             out_file = os.path.join(kwargs['out_dir'], f'{basename}.csv')
+            out_dir = os.path(kwargs['out_dir'])
 
             if (not os.path.exists(out_file)):
                 c_dict = dict()
