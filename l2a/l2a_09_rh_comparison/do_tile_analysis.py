@@ -28,35 +28,8 @@ class ProcessJob(PBPTQProcessTool):
     def do_processing(self, **kwargs):
         gedi_file = self.params["gedi_file"]
         out_dir = self.params["out_dir"]
-        
-        listConCatDF = []
-        
-        try:
-             df1 = gpd.read_file(gedi_file, layer = 'BEAM0101')
-             listConCatDF.append(df1)
-        except:
-             print('BEAM0101 Not Found')
-        try:
-             df1 = gpd.read_file(gedi_file, layer = 'BEAM0110')
-             listConCatDF.append(df1)
-        except:
-             print('BEAM0110 Not Found')
-        try:
-              df1 = gpd.read_file(gedi_file, layer = 'BEAM1000')
-              listConCatDF.append(df1)
-        except:
-              print('BEAM1000 Not Found')       
-        try:
-             df1 = gpd.read_file(gedi_file, layer = 'BEAM1011')
-             listConCatDF.append(df1)
-        except:
-             print('BEAM1011 Not Found')        
-        
 
-
-        #dfList = [df1, df2, df3, df4]
-
-        df = pandas.concat(listConCatDF) 
+        df = gpd.read_file(gedi_file)
 
         df_quality = df[df.quality_flag != 0]
 
