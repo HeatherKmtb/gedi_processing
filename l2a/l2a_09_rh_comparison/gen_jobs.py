@@ -30,7 +30,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for gedi_file in gedi_files:
             basename = self.get_file_basename(gedi_file)
             out_file = os.path.join(kwargs['out_dir'], f'{basename}.csv')
-            out_dir = os.path.basename(kwargs['out_dir'])
+            out_dir = '/bigdata/heather_gedi/results/l2a/'
 
             if (not os.path.exists(out_file)):
                 c_dict = dict()
@@ -42,7 +42,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(
-            gedi_tiles='/bigdata/heather_gedi/data/l2a/7.joined_biomes/',
+            gedi_tiles='/bigdata/heather_gedi/data/l2a/7.joined_biomes/*.gpkg',
             out_dir='/bigdata/heather_gedi/results/l2a/')
 
         self.pop_params_db()
