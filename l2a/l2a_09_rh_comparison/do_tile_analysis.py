@@ -29,15 +29,34 @@ class ProcessJob(PBPTQProcessTool):
         gedi_file = self.params["gedi_file"]
         out_dir = self.params["out_dir"]
         
-         
-        df1 = gpd.read_file(gedi_file, layer = 'BEAM0101')
-        df2 = gpd.read_file(gedi_file, layer = 'BEAM0110')
-        df3 = gpd.read_file(gedi_file, layer = 'BEAM1000')
-        df4 = gpd.read_file(gedi_file, layer = 'BEAM1011')
+        listConCatDF = []
+        
+        try:
+             df1 = gpd.read_file(gedi_file, layer = 'BEAM0101')
+             listConCatDF.append(df1)
+        except:
+             print('BEAM0101 Not Found')
+        try:
+             df1 = gpd.read_file(gedi_file, layer = 'BEAM0110')
+             listConCatDF.append(df1)
+        except:
+             print('BEAM0110 Not Found')
+        try:
+              df1 = gpd.read_file(gedi_file, layer = 'BEAM1000')
+              listConCatDF.append(df1)
+        except:
+              print('BEAM1000 Not Found')       
+        try:
+             df1 = gpd.read_file(gedi_file, layer = 'BEAM1011')
+             listConCatDF.append(df1)
+        except:
+             print('BEAM1011 Not Found')        
+        
 
-        dfList = [df1, df2, df3, df4]
 
-        df = pandas.concat(dfList) 
+        #dfList = [df1, df2, df3, df4]
+
+        df = pandas.concat(listConCatDF) 
 
         df_quality = df[df.quality_flag != 0]
 
