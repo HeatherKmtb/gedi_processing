@@ -23,7 +23,8 @@ class ProcessJob(PBPTQProcessTool):
         wwf = self.params["wwf"]
                        
         
-        base_gdf = geopandas.read_file(file)
+        glas = geopandas.read_file(file)
+        base_gdf = glas.to_crs(crs=4326)
         join_gdf = geopandas.read_file(wwf)
            
         geostats = geopandas.sjoin(base_gdf, join_gdf, how='inner', op='within',lsuffix='lefty',rsuffix='righty')
