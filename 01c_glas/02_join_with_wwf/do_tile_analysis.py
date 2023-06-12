@@ -24,7 +24,7 @@ class ProcessJob(PBPTQProcessTool):
                        
         
         glas = geopandas.read_file(file)
-        base_gdf = glas.to_crs(crs=4326)
+        base_gdf = glas.set_crs('epsg:4326')
         join_gdf = geopandas.read_file(wwf)
            
         geostats = geopandas.sjoin(base_gdf, join_gdf, how='inner', op='within',lsuffix='lefty',rsuffix='righty')
