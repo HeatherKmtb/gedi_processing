@@ -51,16 +51,8 @@ class ProcessJob(PBPTQProcessTool):
         layers = vectorutils.get_vec_lyrs_lst(file)
             
         df_list = [geopandas.read_file(file, layer=layer) for layer in layers]
-        df = pd.concat(df_list)
+        final = pd.concat(df_list)
          
-        #calculate canopy density
-        rv = df['rv']
-        rg = df['rg']
-        cd = rv/(rv + rg)
-        df['cd'] = cd
-        final = df.dropna(subset = ['cd'])
-        
-        del rv, rg
                 
         footprints = len(final['h100'])
                 
