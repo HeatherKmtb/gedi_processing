@@ -34,7 +34,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['basename'] = basename
                 self.params.append(c_dict)
 
-
     def run_gen_commands(self):
         self.gen_command_info(
             gedi_tiles='/bigdata/heather_gedi/glas/data/1-joined_with_wwf/*.gpkg',
