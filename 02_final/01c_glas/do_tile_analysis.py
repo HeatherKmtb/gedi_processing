@@ -43,8 +43,8 @@ class ProcessJob(PBPTQProcessTool):
         hd, tl = path.split(file)
         shp_lyr_name = path.splitext(tl)[0]
         name_comp = shp_lyr_name.split('_')
-        name = name_comp[1] 
-        eco = name_comp[3]
+        name = name_comp[2] 
+        eco = name_comp[4]
         print(name)
         print(eco)
         
