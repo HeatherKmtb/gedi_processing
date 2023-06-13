@@ -25,7 +25,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for gedi_file in gedi_files:
             basename = self.get_file_basename(gedi_file)
             out_file = os.path.join(kwargs['out_dir'], f'{basename}_eco_*.gpkg')
-            out_dir = os.path(kwargs['out_dir'])
+            out_dir = '/bigdata/heather_gedi/glas/data/2-split_per_eco'
 
             if (not os.path.exists(out_file)):
                 c_dict = dict()
