@@ -54,7 +54,7 @@ class ProcessJob(PBPTQProcessTool):
         final = pd.concat(df_list)
          
                 
-        footprints = len(final['h100'])
+        footprints = len(final['i_h100'])
                 
         #regression 
         def f(x,q):
